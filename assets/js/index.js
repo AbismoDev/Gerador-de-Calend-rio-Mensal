@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        const res = document.querySelector("#res");
         const inputData = document.querySelector("#input--data");
         const valorInputData = inputData.value;
 
@@ -16,12 +15,108 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dataEscolhida = new Date(valorInputData + "T00:00:00");
         const mesDataEscolhida = dataEscolhida.getMonth();
-        const anoEscolhido = dataEscolhida.getFullYear();
 
+        const mesGerado = [
+            "Janeiro", "Fevereiro", "Março", 
+            "Abril", "Maio", "Junho", 
+            "Julho", "Agosto", "Setembro", 
+            "Outubro", "Novembro", "Dezembro"
+        ];
+
+        gerarSemanas(dataEscolhida);
+
+        gerarCalendario(dataEscolhida, mesDataEscolhida, mesGerado);
+
+        const diaClick = document.querySelectorAll(".dia");
+        for(let i = 0; i < diaClick.length; i++){
+            diaClick[i].addEventListener("click", (e) => {
+                const id = e.target.id;
+                alert(`Você clicou no dia ${id} de ${mesGerado[mesDataEscolhida]} de ${anoEscolhido}`)
+            })
+        }
+                 
+    });
+
+    function gerarCalendario (dataEscolhida, mesDataEscolhida, mesGerado) {
+
+        const res = document.querySelector("#res");
+
+        const caracterVazio = `&nbsp;`;
+        dataEscolhida.setDate(1);      
+
+        let tableRow = [];
+        let tableData =[];
+        const dataAtual = new Date();
+        const semanasNoMes = gerarSemanas(dataEscolhida);      
+        
+        const anoEscolhido = dataEscolhida.getFullYear();  
+
+        for(let r = 0; r < semanasNoMes.diaSemana; r++) {
+            // Aqui vamos criar a tr
+            for(let d = 0; d < 7; d++) {
+                // Aqui vamos criar a td
+                // Verificar que dia da semana é a data
+                if(dataEscolhida.getDay() != d) {
+                    tableData.push(`<td>${caracterVazio}</td>`);
+                    continue;
+                }
+                if(dataEscolhida.getDate() <= semanasNoMes.diaMes && dataEscolhida.getMonth() === mesDataEscolhida) {              
+
+                    if(dataEscolhida.getDate() === dataAtual.getDate()){
+                        tableData.push(`<td class="dia dia--atual" id="${dataEscolhida.getDate()}" >${dataEscolhida.getDate()}</td>`);                        
+                    }
+                    else if(dataEscolhida.getDay() === 0 || dataEscolhida.getDay() === 6) {
+                        tableData.push(`<td class="dia fim--de--semana" id="${dataEscolhida.getDate()}" >${dataEscolhida.getDate()}</td>`);
+                    }
+                    else {
+                        tableData.push(`<td class="dia" id="${dataEscolhida.getDate()}" >${dataEscolhida.getDate()}</td>`);
+                    }
+
+                    dataEscolhida.setDate(dataEscolhida.getDate() + 1); 
+                    continue;
+                }
+
+                tableData.push(`<td>${caracterVazio}</td>`);
+            }
+            tableRow.push(`<tr>${tableData}</tr>`);
+            tableData = [];
+        }
+         
+        const htmlCalendario = tableRow.join(" ").replaceAll(",", " ");
+
+        res.innerHTML = `
+            <div class="container--calendario">
+                <div class="container--texto">
+                    <h2>${mesGerado[mesDataEscolhida]} de ${anoEscolhido}</h2>
+                </div>
+                <div class="calendario">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dom.</th>
+                                <th>Seg.</th>
+                                <th>Ter.</th>
+                                <th>Qua.</th>
+                                <th>Qui.</th>
+                                <th>Sex.</th>
+                                <th>Sáb.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        ${htmlCalendario}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }
+
+    function gerarSemanas (dataEscolhida) {
         const dataParaVerDias = new Date(dataEscolhida);
-        dataParaVerDias.setMonth(dataEscolhida.getMonth() + 1);
+
         dataParaVerDias.setDate(0);
         const diasMes = dataParaVerDias.getDate();
+        dataParaVerDias.setMonth(dataEscolhida.getMonth());
 
         // Precisamos pegar agora o numero de semanas para aquele mês;        
         dataParaVerDias.setDate(1);
@@ -48,108 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
 
-        const semanasNoMes = Math.ceil((diasMes + diaVazio) / 7);
-        let mesGerado;
-
-        switch(mesDataEscolhida) {
-            case 0:
-                mesGerado = "Janeiro";
-                break;
-            case 1:
-                mesGerado = "Fevereiro";
-                break;
-            case 2:
-                mesGerado = "Março";
-                break;
-            case 3:
-                mesGerado = "Abril";
-                break;
-            case 4:
-                mesGerado = "Maio";
-                break;
-            case 5:
-                mesGerado = "Junho";
-                break;
-            case 6:
-                mesGerado = "Julho";
-                break;
-            case 7:
-                mesGerado = "Agosto";
-                break;
-            case 8:
-                mesGerado = "Setembro";
-                break;
-            case 9:
-                mesGerado = "Outubro";
-                break;
-            case 10:
-                mesGerado = "Novembro";
-                break;
-            case 11:
-                mesGerado = "Dezembro";
-                break;
-        }
-
-        const caracterVazio = `&nbsp;`;
-
-        let htmlCalendario = [];
-
-        dataEscolhida.setDate(1);      
-
-        let tableRow = [];
-        let tableData =[];
-
-        for(let r = 0; r < semanasNoMes; r++) {
-            // Aqui vamos criar a tr
-            for(let d = 0; d < 7; d++) {
-                // Aqui vamos criar a td
-                // Verificar que dia da semana é a data
-                if(dataEscolhida.getDay() != d) {
-                    tableData.push(`<td>${caracterVazio}</td>`);
-                    continue;
-                }
-
-                if(dataEscolhida.getDate() <= diasMes && dataEscolhida.getMonth() === mesDataEscolhida) {              
-
-                    tableData.push(`<td>${dataEscolhida.getDate()}</td>`);
-                    dataEscolhida.setDate(dataEscolhida.getDate() + 1); 
-                    continue;
-                }
-
-                tableData.push(`<td>${caracterVazio}</td>`);
-            }
-            tableRow.push(`<tr>${tableData}</tr>`);
-            tableData = [];
-        }
-         
-        htmlCalendario = tableRow.join(" ").replaceAll(",", " ");
-
-        res.innerHTML = `
-            <div class="container--calendario">
-                <div class="container--texto">
-                    <h2>${mesGerado} de ${anoEscolhido}</h2>
-                </div>
-                <div class="calendario">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Dom.</th>
-                                <th>Seg.</th>
-                                <th>Ter.</th>
-                                <th>Qua.</th>
-                                <th>Qui.</th>
-                                <th>Sex.</th>
-                                <th>Sáb.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        ${htmlCalendario}
-                        </tbody>
-                    </table>
-                </div>
-            </div>          
-        `;
-
-    });
+        return {diaSemana: Math.ceil((diasMes + diaVazio) / 7), diaMes: diasMes};
+    }
 
 });

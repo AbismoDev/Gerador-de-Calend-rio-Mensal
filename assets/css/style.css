@@ -78,13 +78,17 @@
     width: 100%;
 }
 
-.formulario button:hover {
+.formulario button:hover,
+.btn:hover {
     transform: scale(0.955);
 }
 
 .container--res {
     justify-content: center;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     width: 100%;
 }
 
@@ -107,9 +111,23 @@
     font-weight: 700;
 }
 
+.calendario table td {
+    cursor: pointer;
+}
+
 .calendario table th,
 .calendario table td {
     border: 1px solid #181818;
     text-align: center;
     padding: 2px 6px;
+}
+
+.dia--atual {
+    background-color: #1c375c;
+    font-weight: 500;
+    color: white;
+}
+
+.fim--de--semana {
+    background-color: aquamarine;
 }
