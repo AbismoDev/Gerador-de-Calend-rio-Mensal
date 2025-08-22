@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    justify-content: center;
+    align-items: center;
+    max-width: 1024px;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+}
+
+.container--app {
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.container--texto {
+    flex-direction: column;
+    text-align: center;
+    max-width: 400px;
+    display: flex;
+    width: 100%;
+    gap: 6px;
+}
+
+.container--texto h1, p, h2 {
+    color: #1c375c;
+}
+
+.container--texto p {
+    font-weight: 500;
+}
+
+.formulario {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    gap: 6px;
+}
+
+.container--input {
+    max-width: 200px;
+    width: 100%;
+}
+
+.container--input input {
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;    
+    height: 35px;
+    width: 100%;
+}
+
+.formulario button {
+    background-color: #1c375c;
+    border-radius: 5px;
+    max-width: 200px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: .3s;
+    cursor: pointer;
+    color: white;
+    height: 40px;
+    border: none;
+    width: 100%;
+}
+
+.formulario button:hover,
+.btn:hover {
+    transform: scale(0.955);
+}
+
+.container--res {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.container--calendario {
+    flex-direction: column;
+    display: flex;
+    gap: 8px;
+}
+
+.calendario {
+    border: 1px solid black;
+}
+
+.calendario table {
+    border-collapse: collapse;
+}
+
+.calendario table th {
+    color: #1c375c;
+    font-weight: 700;
+}
+
+.calendario table td {
+    cursor: pointer;
+}
+
+.calendario table th,
+.calendario table td {
+    border: 1px solid #181818;
+    text-align: center;
+    padding: 2px 6px;
+}
+
+.dia--atual {
+    background-color: #1c375c;
+    font-weight: 500;
+    color: white;
+}
+
+.fim--de--semana {
+    background-color: aquamarine;
+}
