@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const caracterVazio = `&nbsp;`;
         dataEscolhida.setDate(1);      
 
-        const semanasNoMes = gerarSemanas(dataEscolhida);   
+        const semanasNoMes = gerarSemanas(dataEscolhida);  
+        const anoEscolhido = dataEscolhida.getFullYear(); 
         const dataAtual = new Date();
         let tableRow = [];
         let tableData =[];
@@ -48,10 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     tableData.push(`<td>${caracterVazio}</td>`);
                     continue;
                 }
-                
+
                 if(dataEscolhida.getDate() <= semanasNoMes.diaMes && dataEscolhida.getMonth() === mesDataEscolhida) {              
 
-                    if(dataEscolhida.getDate() === dataAtual.getDate() && mesDataEscolhida === dataAtual.getMonth()){
+                    if(dataEscolhida.getDate() === dataAtual.getDate() && mesDataEscolhida === dataAtual.getMonth() && anoEscolhido === dataAtual.getFullYear()){
                         tableData.push(`<td class="dia dia--atual" id="${dataEscolhida.getDate()}" >${dataEscolhida.getDate()}</td>`);                        
                     }
                     else if(dataEscolhida.getDay() === 0 || dataEscolhida.getDay() === 6) {
